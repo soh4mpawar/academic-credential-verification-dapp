@@ -9,8 +9,8 @@ try {
     $doc = $word.Documents.Open($docxPath)
     
     Write-Host "Exporting to PDF: $pdfPath"
-    $doc.SaveAs([ref]$pdfPath, [ref]17) # 17 is wdFormatPDF
-    $doc.Close()
+    $doc.ExportAsFixedFormat($pdfPath.ToString(), 17) # 17 is wdExportFormatPDF
+    $doc.Close(0) # 0 is wdDoNotSaveChanges
     Write-Host "SUCCESS: PDF successfully generated at $pdfPath"
 }
 catch {

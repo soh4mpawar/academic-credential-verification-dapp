@@ -22,6 +22,7 @@ async function main() {
   const ganacheProvider = ganache.provider({
     chain: { hardfork: "shanghai" },
     wallet: {
+      mnemonic: "myth like bonus scare over problem client lizard pioneer submit female collect",
       totalAccounts: 5,
       defaultBalance: 100
     },

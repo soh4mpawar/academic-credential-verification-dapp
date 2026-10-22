@@ -45,12 +45,12 @@ The DApp consists of three integrated layers:
 | **Smart Contract** | `AcademicCredential.sol` |
 | **Compiler Version** | Solidity `^0.8.20` |
 | **Optimization** | Enabled (200 runs) |
-| **Primary Test Network** | Ganache Local RPC (`http://127.0.0.1:7545` / `Chain ID 1337`) |
+| **Primary Test Network** | Ganache Local RPC (`http://127.0.0.1:8545` / `Chain ID 1337`) |
 | **Alternative Test Network** | Ethereum Sepolia Testnet (`Chain ID 11155111`) |
-| **Deployed Contract Address** | `0x5FbDB2315678afecb367f032d93F642f64180aa3` |
-| **Deployer / Owner Address** | `0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266` |
-| **Authorized Issuer Address** | `0x70997970C51812dc3A010C7d01b50e0d17dc79C8` |
-| **Deployment Transaction Hash** | `0x3a4f6d89b1c70e9a5281efd36a99478f6581971f11a84091a13e2dfb147d3e21` |
+| **Deployed Contract Address** | `0xe78A0F7E598Cc8b0Bb87894B0F60dD2a88d6a8Ab` |
+| **Deployer / Owner Address** | `0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1` |
+| **Authorized Issuer Address** | `0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0` |
+| **Deployment Transaction Hash** | `0x766bc87944bfb22f8c3e83d851eb85054bb4cfb7976474763888ec8bfbb3efb8` |
 
 ---
 
@@ -70,12 +70,16 @@ academic-credential-verification-dapp/
 │       ├── app.js                      # Ethers.js & MetaMask frontend integration
 │       └── contractABI.js              # Application Binary Interface export
 │
+├── build/
+│   ├── AcademicCredential.abi          # Compiled contract Application Binary Interface
+│   └── AcademicCredential.bin          # Compiled EVM bytecode
+│
 ├── deployment/
 │   ├── contract_abi.json               # Raw JSON ABI
 │   └── deployment_details.json         # Deployment metadata & tx records
 │
 ├── test/
-│   ├── test_cases.js                   # Node.js automated test runner
+│   ├── test_cases.js                   # Live Ganache EVM automated test runner
 │   └── test_results.txt                # Captured test execution terminal log
 │
 ├── screenshots/
@@ -87,7 +91,8 @@ academic-credential-verification-dapp/
 │   └── 06_blockchain_data_displayed_ui.png
 │
 ├── scripts/
-│   └── generate_screenshots.py         # Evidence generation script
+│   ├── create_submission_doc.py        # Report generation script
+│   └── convert_to_pdf.ps1              # PDF conversion script
 │
 ├── bs-config.json                      # Lite-server configuration
 ├── package.json                        # NPM package configuration
@@ -164,7 +169,7 @@ The application was evaluated across valid, invalid, and unauthorized inputs to 
 |:---:|:---:|:---|:---|:---|:---:|
 | **TC-01** | Valid | Deploy contract with initial administrator | Sets `owner = msg.sender`, auto-authorizes admin issuer | `owner` initialized, `IssuerAdded` event emitted | **PASS** |
 | **TC-02** | Valid | Owner authorizes new department (`0x7099...`) | Registers issuer as authorized, emits `IssuerAdded` | Issuer state `isAuthorized == true`, stored on-chain | **PASS** |
-| **TC-03** | Valid | Authorized issuer mints valid certificate (`CERT-2026-CSE-001`) | Mints credential, emits `CertificateIssued`, increments count | Transaction mined in block #1, data stored | **PASS** |
+| **TC-03** | Valid | Authorized issuer mints valid certificate (`CERT-2026-CSE-001`) | Mints credential, emits `CertificateIssued`, increments count | Transaction mined in block #3, data stored | **PASS** |
 | **TC-04** | Valid | Public query of valid Certificate ID | Returns student name, reg number, degree, grade, issuer, valid status | Certificate displayed with green **AUTHENTIC & VERIFIED** badge | **PASS** |
 | **TC-05** | Valid | Issuer revokes certificate with valid reason | Sets `isRevoked = true`, records reason string | Transaction succeeds, verification shows **REVOKED / INVALID** | **PASS** |
 | **TC-06** | Invalid Input | Issue credential with empty student name (`""`) | Reverts via `require(bytes(_studentName).length > 0)` | EVM Revert: `"Student name cannot be empty"` | **PASS** |
@@ -183,7 +188,7 @@ node test/test_cases.js
 **Observed Output Summary:**
 ```text
 ========================================================================
-TEST SUMMARY: 13 / 13 TESTS PASSED (100% SUCCESS RATE)
+TEST SUMMARY: 12 / 12 TESTS PASSED (100% SUCCESS RATE)
 ========================================================================
 ```
 
