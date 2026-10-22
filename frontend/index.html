@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduVerify | Decentralized Academic Credential Verification DApp</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <div class="brand-logo">🎓</div>
+        <div>
+          <h1>EduVerify</h1>
+          <p class="subtitle">Decentralized Academic Credential Registry</p>
+        </div>
+      </div>
+      <div class="nav-wallet">
+        <div class="network-badge" id="networkBadge">
+          <span class="status-dot"></span>
+          <span id="networkName">Not Connected</span>
+        </div>
+        <button id="connectWalletBtn" class="btn btn-primary">
+          <span class="btn-icon">🦊</span>
+          <span id="walletBtnText">Connect MetaMask</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- Active Account & Contract Banner -->
+    <section class="config-banner">
+      <div class="config-item">
+        <span class="config-label">Connected Wallet:</span>
+        <span class="config-value mono" id="activeAccountDisplay">None</span>
+        <span class="role-pill" id="userRoleBadge">Guest Verifier</span>
+      </div>
+      <div class="config-item contract-config">
+        <span class="config-label">Contract Address:</span>
+        <input type="text" id="contractAddressInput" class="input-inline mono" placeholder="0x..." value="0x5FbDB2315678afecb367f032d93F642f64180aa3">
+        <button id="updateContractBtn" class="btn btn-xs btn-outline">Update</button>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="tab-verify">
+        <span class="tab-icon">🔍</span> Verify Credential
+      </button>
+      <button class="tab-btn" data-tab="tab-issue">
+        <span class="tab-icon">📜</span> Issue Credential
+      </button>
+      <button class="tab-btn" data-tab="tab-revoke">
+        <span class="tab-icon">⚠️</span> Revoke Credential
+      </button>
+      <button class="tab-btn" data-tab="tab-admin">
+        <span class="tab-icon">🏛️</span> Manage Issuers
+      </button>
+      <button class="tab-btn" data-tab="tab-test">
+        <span class="tab-icon">🧪</span> Test Scenarios
+      </button>
+    </nav>
+
+    <!-- Notification Toast Box -->
+    <div id="toastBox" class="toast-box hidden">
+      <div class="toast-content">
+        <span id="toastIcon" class="toast-icon">ℹ️</span>
+        <div class="toast-message-wrap">
+          <strong id="toastTitle">Notification</strong>
+          <p id="toastMessage"></p>
+          <div id="toastTxLink" class="tx-link mono hidden"></div>
+        </div>
+      </div>
+      <button class="toast-close" id="closeToastBtn">&times;</button>
+    </div>
+
+    <!-- TAB 1: Verify Credential -->
+    <section id="tab-verify" class="tab-content active">
+      <div class="card">
+        <div class="card-header">
+          <h2>Verify Academic Certificate</h2>
+          <p>Instantly inspect and cryptographically validate certificates registered on the Ethereum blockchain.</p>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="verifyCertIdInput">Certificate ID (bytes32 Hex or Text Key)</label>
+            <div class="input-with-button">
+              <input type="text" id="verifyCertIdInput" class="input-text mono" placeholder="e.g. 0x1a2b3c... or CERT-2026-001">
+              <button id="verifyBtn" class="btn btn-primary">
+                <span>Check Credential</span>
+              </button>
+            </div>
+          </div>
+          <div class="quick-samples">
+            <span class="sample-label">Try sample:</span>
+            <button class="sample-pill" data-id="CERT-2026-CSE-001">CERT-2026-CSE-001 (Valid)</button>
+            <button class="sample-pill" data-id="CERT-2026-CSE-REVOKED">CERT-2026-CSE-REVOKED (Revoked)</button>
+            <button class="sample-pill" data-id="CERT-NONEXISTENT">CERT-NONEXISTENT (Invalid)</button>
+          </div>
+
+          <!-- Result Display Card -->
+          <div id="verifyResult" class="verification-card hidden">
+            <div class="cert-status-banner" id="certStatusBanner">
+              <span class="badge-status" id="certBadge">STATUS</span>
+              <span class="cert-id-tag mono" id="resultCertId"></span>
+            </div>
+
+            <div class="cert-details-grid">
+              <div class="detail-cell">
+                <span class="cell-label">Student Name</span>
+                <span class="cell-val" id="resultStudentName">-</span>
+              </div>
+              <div class="detail-cell">
+                <span class="cell-label">Registration / Roll No</span>
+                <span class="cell-val mono" id="resultRegNo">-</span>
+              </div>
+              <div class="detail-cell">
+                <span class="cell-label">Course / Degree</span>
+                <span class="cell-val" id="resultCourse">-</span>
+              </div>
+              <div class="detail-cell">
+                <span class="cell-label">Grade / CGPA</span>
+                <span class="cell-val bold" id="resultGrade">-</span>
+              </div>
+              <div class="detail-cell">
+                <span class="cell-label">Issuing Authority</span>
+                <span class="cell-val" id="resultIssuerName">-</span>
+              </div>
+              <div class="detail-cell">
+                <span class="cell-label">Issuer Address</span>
+                <span class="cell-val mono truncate" id="resultIssuerAddress">-</span>
+              </div>
+              <div class="detail-cell">
+                <span class="cell-label">Issue Timestamp</span>
+                <span class="cell-val" id="resultIssueDate">-</span>
+              </div>
+              <div class="detail-cell" id="revocationReasonRow" style="display:none;">
+                <span class="cell-label">Revocation Reason</span>
+                <span class="cell-val text-danger" id="resultRevocationReason">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: Issue Credential -->
+    <section id="tab-issue" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <h2>Issue New Credential</h2>
+          <p>Authorized academic institutions and university registrars can mint and record student credentials.</p>
+        </div>
+        <div class="card-body">
+          <form id="issueForm" onsubmit="return false;">
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="issueCertId">Certificate Unique Identifier</label>
+                <div class="input-with-button">
+                  <input type="text" id="issueCertId" class="input-text mono" placeholder="e.g. CERT-2026-CSE-001" required>
+                  <button type="button" id="generateCertIdBtn" class="btn btn-secondary">Generate ID</button>
+                </div>
+                <small class="helper-text">String will be converted to a unique bytes32 hash on-chain.</small>
+              </div>
+
+              <div class="form-group">
+                <label for="issueStudentName">Student Full Name</label>
+                <input type="text" id="issueStudentName" class="input-text" placeholder="e.g. Soham Sandeep Pawar" required>
+              </div>
+
+              <div class="form-group">
+                <label for="issueStudentReg">Registration Number</label>
+                <input type="text" id="issueStudentReg" class="input-text mono" placeholder="e.g. 230905312" required>
+              </div>
+
+              <div class="form-group">
+                <label for="issueCourse">Degree / Course Name</label>
+                <input type="text" id="issueCourse" class="input-text" placeholder="e.g. B.Tech in Computer Science & Engineering" required>
+              </div>
+
+              <div class="form-group">
+                <label for="issueGrade">Grade / CGPA</label>
+                <input type="text" id="issueGrade" class="input-text" placeholder="e.g. 9.45 CGPA" required>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" id="fillSampleIssueBtn" class="btn btn-outline">Fill Sample Data</button>
+              <button type="submit" id="submitIssueBtn" class="btn btn-primary">
+                <span>Sign & Issue on Blockchain</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: Revoke Credential -->
+    <section id="tab-revoke" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <h2>Revoke Academic Credential</h2>
+          <p>Revoke previously issued credentials in cases of administrative cancellation, misrepresentation, or disciplinary action.</p>
+        </div>
+        <div class="card-body">
+          <form id="revokeForm" onsubmit="return false;">
+            <div class="form-group">
+              <label for="revokeCertId">Certificate Identifier</label>
+              <input type="text" id="revokeCertId" class="input-text mono" placeholder="e.g. CERT-2026-CSE-001" required>
+            </div>
+
+            <div class="form-group">
+              <label for="revokeReason">Official Revocation Reason</label>
+              <textarea id="revokeReason" class="input-textarea" rows="3" placeholder="e.g. Academic record annulled following examination committee inquiry" required></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" id="submitRevokeBtn" class="btn btn-danger">
+                <span>Revoke Certificate</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: Manage Issuers (Admin) -->
+    <section id="tab-admin" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <h2>Issuer Authority Management</h2>
+          <p>Only the contract owner can authorize or revoke academic departments and university bodies.</p>
+        </div>
+        <div class="card-body">
+          <div class="admin-grid">
+            <!-- Add Issuer -->
+            <div class="sub-card">
+              <h3>Authorize New Issuer</h3>
+              <form id="addIssuerForm" onsubmit="return false;">
+                <div class="form-group">
+                  <label for="issuerAddress">Department / Faculty Ethereum Address</label>
+                  <input type="text" id="issuerAddress" class="input-text mono" placeholder="0x..." required>
+                </div>
+                <div class="form-group">
+                  <label for="issuerName">Department / Institution Name</label>
+                  <input type="text" id="issuerName" class="input-text" placeholder="e.g. Department of Computer Science & Engineering" required>
+                </div>
+                <button type="submit" id="submitAddIssuerBtn" class="btn btn-primary full-width">Authorize Issuer</button>
+              </form>
+            </div>
+
+            <!-- Revoke Issuer -->
+            <div class="sub-card">
+              <h3>Revoke Issuer Authority</h3>
+              <form id="revokeIssuerForm" onsubmit="return false;">
+                <div class="form-group">
+                  <label for="revokeIssuerAddress">Issuer Ethereum Address</label>
+                  <input type="text" id="revokeIssuerAddress" class="input-text mono" placeholder="0x..." required>
+                </div>
+                <button type="submit" id="submitRevokeIssuerBtn" class="btn btn-danger full-width">Revoke Authorization</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: Test Scenarios -->
+    <section id="tab-test" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <h2>Assignment Test Suite & Validation Sandbox</h2>
+          <p>Automated scenario triggers verifying valid, invalid, and unauthorized input handling per assignment guidelines.</p>
+        </div>
+        <div class="card-body">
+          <div class="test-suite-grid">
+            <!-- Scenario 1: Valid -->
+            <div class="test-card test-success">
+              <div class="test-badge">Requirement 5.1</div>
+              <h3>1. Valid Transaction Test</h3>
+              <p>Issues a genuine credential with complete valid parameters signed by the authorized authority.</p>
+              <ul class="test-specs">
+                <li>Valid Cert ID: <code>CERT-VALID-2026</code></li>
+                <li>Valid Student Name & Roll No</li>
+                <li>Expected: Successful tx receipt & block confirmation</li>
+              </ul>
+              <button id="runValidTestBtn" class="btn btn-success full-width">Execute Valid Test</button>
+            </div>
+
+            <!-- Scenario 2: Invalid Input -->
+            <div class="test-card test-warning">
+              <div class="test-badge">Requirement 5.2</div>
+              <h3>2. Invalid Input Test</h3>
+              <p>Attempts to issue with missing/empty student name or a duplicate Certificate ID.</p>
+              <ul class="test-specs">
+                <li>Empty Student Name string: <code>""</code></li>
+                <li>Trigger: Solidity <code>require(bytes(name).length > 0)</code></li>
+                <li>Expected: Revert with validation error</li>
+              </ul>
+              <button id="runInvalidTestBtn" class="btn btn-warning full-width">Execute Invalid Input Test</button>
+            </div>
+
+            <!-- Scenario 3: Unauthorized -->
+            <div class="test-card test-danger">
+              <div class="test-badge">Requirement 5.3</div>
+              <h3>3. Unauthorised Input Test</h3>
+              <p>Attempts to perform an admin action (authorizing an issuer) from an unauthorized non-owner address.</p>
+              <ul class="test-specs">
+                <li>Modifier: <code>onlyOwner</code> requirement check</li>
+                <li>Sender: Non-owner account</li>
+                <li>Expected: Revert with "Caller is not the contract owner"</li>
+              </ul>
+              <button id="runUnauthorizedTestBtn" class="btn btn-danger full-width">Execute Unauthorised Test</button>
+            </div>
+          </div>
+
+          <div class="test-log-terminal">
+            <div class="terminal-header">
+              <span>Test Console Output</span>
+              <button id="clearLogsBtn" class="btn btn-xs btn-outline">Clear</button>
+            </div>
+            <pre id="testLogsContainer" class="terminal-body mono">> Ready. Select a test scenario above to execute against the blockchain.</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Blockchain Technology (CSE4444) — Assignment 2</p>
+      <p class="footer-meta">Student: Soham Sandeep Pawar (Reg No: 230905312) | Ethereum DApp via Remix / Ganache & MetaMask</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+  <script src="js/contractABI.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
