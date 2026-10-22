@@ -2,19 +2,19 @@ import os
 import docx
 from docx.shared import Inches, Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
-from docx.oxml import parse_xml, OxmlElement
-from docx.oxml.ns import nsdecls, qn
+from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.oxml import parse_xml
+from docx.oxml.ns import nsdecls
 
 doc = docx.Document()
 
 # Page Margins
 sections = doc.sections
 for section in sections:
-    section.top_margin = Inches(0.8)
-    section.bottom_margin = Inches(0.8)
-    section.left_margin = Inches(0.8)
-    section.right_margin = Inches(0.8)
+    section.top_margin = Inches(0.65)
+    section.bottom_margin = Inches(0.65)
+    section.left_margin = Inches(0.65)
+    section.right_margin = Inches(0.65)
 
 # Helper styling functions
 def set_cell_background(cell, fill_hex):
@@ -22,10 +22,16 @@ def set_cell_background(cell, fill_hex):
     shd = parse_xml(f'<w:shd {nsdecls("w")} w:fill="{fill_hex}"/>')
     tcPr.append(shd)
 
-def set_cell_margins(cell, top=100, bottom=100, left=150, right=150):
+def set_cell_margins(cell, top=80, bottom=80, left=120, right=120):
     tcPr = cell._tc.get_or_add_tcPr()
     tcMar = parse_xml(f'<w:tcMar {nsdecls("w")}><w:top w:w="{top}" w:type="dxa"/><w:bottom w:w="{bottom}" w:type="dxa"/><w:left w:w="{left}" w:type="dxa"/><w:right w:w="{right}" w:type="dxa"/></w:tcMar>')
     tcPr.append(tcMar)
+
+def add_hyperlink(paragraph, url, text):
+    part = paragraph.part
+    r_id = part.relate_to(url, docx.opc.constants.RELATIONSHIP_TYPE.HYPERLINK, is_external=True)
+    hyperlink = parse_xml(f'<w:hyperlink {nsdecls("w")} xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="{r_id}"><w:r><w:rPr><w:color w:val="2563EB"/><w:u w:val="single"/><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri"/></w:rPr><w:t>{text}</w:t></w:r></w:hyperlink>')
+    paragraph._p.append(hyperlink)
 
 # Title Block
 p_title = doc.add_paragraph()
@@ -44,7 +50,7 @@ run_sub.font.color.rgb = RGBColor(37, 99, 235)
 
 p_rule = doc.add_paragraph()
 p_rule.alignment = WD_ALIGN_PARAGRAPH.CENTER
-r_rule = p_rule.add_run("―" * 55)
+r_rule = p_rule.add_run("―" * 65)
 r_rule.font.color.rgb = RGBColor(203, 213, 225)
 
 # Student & Submission Metadata Table
@@ -53,47 +59,46 @@ table.alignment = WD_TABLE_ALIGNMENT.CENTER
 table.autofit = False
 
 metadata = [
-    ("Student Name:", "Soham Sandeep Pawar"),
-    ("Registration Number:", "230905312"),
-    ("Assignment Title:", "Design and Development of an Original DApp (Assignment 2)"),
-    ("Title of Developed DApp:", "Decentralized Academic Credential Verification System (EduVerify)"),
-    ("GitHub Repository Link:", "https://github.com/soh4mpawar/academic-credential-verification-dapp")
+    ("Student Name:", "Soham Sandeep Pawar", False),
+    ("Registration Number:", "230905312", False),
+    ("Assignment Title:", "Design and Development of an Original DApp (Assignment 2)", False),
+    ("Title of Developed DApp:", "Decentralized Academic Credential Verification System (EduVerify)", False),
+    ("GitHub Repository Link:", "https://github.com/soh4mpawar/academic-credential-verification-dapp", True)
 ]
 
-for idx, (label, val) in enumerate(metadata):
+for idx, (label, val, is_link) in enumerate(metadata):
     row = table.rows[idx]
     
     # Col 0: Label
     cell0 = row.cells[0]
-    cell0.width = Inches(2.3)
+    cell0.width = Inches(2.0)
     p0 = cell0.paragraphs[0]
     p0.alignment = WD_ALIGN_PARAGRAPH.LEFT
     r0 = p0.add_run(label)
     r0.font.name = "Calibri"
-    r0.font.size = Pt(11)
+    r0.font.size = Pt(10)
     r0.font.bold = True
     r0.font.color.rgb = RGBColor(30, 41, 59)
     set_cell_background(cell0, "F1F5F9")
-    set_cell_margins(cell0, 80, 80, 120, 120)
+    set_cell_margins(cell0, 70, 70, 100, 100)
     
     # Col 1: Value
     cell1 = row.cells[1]
-    cell1.width = Inches(4.5)
+    cell1.width = Inches(5.2) # Wide enough so URL never wraps across lines!
     p1 = cell1.paragraphs[0]
-    r1 = p1.add_run(val)
-    r1.font.name = "Calibri"
-    r1.font.size = Pt(11)
-    if "https://" in val:
-        r1.font.bold = True
-        r1.font.color.rgb = RGBColor(37, 99, 235)
-        r1.font.underline = True
-    elif "Soham" in val or "230905312" in val or "EduVerify" in val:
-        r1.font.bold = True
-        r1.font.color.rgb = RGBColor(15, 23, 42)
+    if is_link:
+        add_hyperlink(p1, val, val)
     else:
-        r1.font.color.rgb = RGBColor(51, 65, 85)
+        r1 = p1.add_run(val)
+        r1.font.name = "Calibri"
+        r1.font.size = Pt(10)
+        if "Soham" in val or "230905312" in val or "EduVerify" in val:
+            r1.font.bold = True
+            r1.font.color.rgb = RGBColor(15, 23, 42)
+        else:
+            r1.font.color.rgb = RGBColor(51, 65, 85)
     set_cell_background(cell1, "FFFFFF")
-    set_cell_margins(cell1, 80, 80, 120, 120)
+    set_cell_margins(cell1, 70, 70, 100, 100)
 
 doc.add_paragraph() # Spacer
 
@@ -113,7 +118,7 @@ p_desc = doc.add_paragraph(
     "validate authenticity directly against smart contract state without relying on centralized intermediaries."
 )
 p_desc.style.font.name = "Calibri"
-p_desc.style.font.size = Pt(10.5)
+p_desc.style.font.size = Pt(10)
 
 # Section 2: Smart Contract & Frontend Architecture
 h2 = doc.add_heading("2. Smart Contract & Frontend Architecture", level=2)
@@ -130,7 +135,7 @@ p_arch = doc.add_paragraph(
     "for transaction signing, balance querying, role detection, and event synchronization."
 )
 p_arch.style.font.name = "Calibri"
-p_arch.style.font.size = Pt(10.5)
+p_arch.style.font.size = Pt(10)
 
 # Section 3: Test Cases & Experimental Results
 h3 = doc.add_heading("3. Test Cases & Verification Results", level=2)
@@ -141,7 +146,7 @@ p_test_desc = doc.add_paragraph(
     "All test scenarios executed with expected state transitions and revert behaviors:"
 )
 p_test_desc.style.font.name = "Calibri"
-p_test_desc.style.font.size = Pt(10.5)
+p_test_desc.style.font.size = Pt(10)
 
 test_table = doc.add_table(rows=7, cols=5)
 test_table.alignment = WD_TABLE_ALIGNMENT.CENTER
