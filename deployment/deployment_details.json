@@ -11,28 +11,38 @@
   },
   "networks": {
     "ganache": {
-      "networkName": "Ganache / Localhost",
+      "networkName": "Ganache Localhost",
       "chainId": 1337,
-      "rpcUrl": "http://127.0.0.1:7545",
-      "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "deployerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-      "transactionHash": "0x3a4f6d89b1c70e9a5281efd36a99478f6581971f11a84091a13e2dfb147d3e21",
-      "blockNumber": 1,
-      "gasUsed": "1428590"
-    },
-    "sepolia": {
-      "networkName": "Ethereum Sepolia Testnet",
-      "chainId": 11155111,
-      "contractAddress": "0x8B32Fc4112e3eA1e5318AAb83D6bDeB07D3c9213",
-      "deployerAddress": "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",
-      "transactionHash": "0x82f45ea3d6837890f65349e52c803324d081f93ea937eec528571439eaef8b93",
-      "blockNumber": 6891042,
-      "gasUsed": "1428590"
+      "rpcUrl": "http://127.0.0.1:8545",
+      "contractAddress": "0x74622F11b7FB1870209A7a4560DD34E27aed7b23",
+      "deployerAddress": "0x56548294265676C0eF1BFc54caa01706f1005E5c",
+      "deploymentTransaction": {
+        "transactionHash": "0xcf1a2de2ffc463316a49317de899124245c5418525741505ddbd688431018784",
+        "blockNumber": 1,
+        "gasUsed": "1620872"
+      },
+      "transactions": {
+        "authorizeIssuer": {
+          "transactionHash": "0x3eec051210e798e596ba152a16d6ef80f0f00f7b4cad6f787e3ee7d67fe5e749",
+          "gasUsed": "139874",
+          "issuer": "0xDa16F344c06158F5d037198DFdfc72bc854785C6"
+        },
+        "issueCertificate": {
+          "transactionHash": "0x5edfccba6d69b01da76e2810f7ff62d0e74f348e0d36b1412581c16dfe5b8dc5",
+          "gasUsed": "280516",
+          "certId": "CERT-2026-CSE-001"
+        },
+        "revokeCertificate": {
+          "transactionHash": "0x3160e362352fa5639dd7bfdb4664792dc1f80c1b981907721ae69eb9ab5f2682",
+          "certId": "CERT-2026-CSE-001",
+          "reason": "Administrative correction required due to updated semester credits"
+        }
+      }
     }
   },
   "roles": {
-    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-    "authorizedIssuer": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-    "unauthorizedTester": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+    "owner": "0x56548294265676C0eF1BFc54caa01706f1005E5c",
+    "departmentIssuer": "0xDa16F344c06158F5d037198DFdfc72bc854785C6",
+    "unauthorizedAccount": "0x5d0409C56eE050716aD41a5F7A2aE369217FCbE3"
   }
 }
