@@ -1,0 +1,38 @@
+{
+  "contractName": "AcademicCredential",
+  "sourceFile": "contracts/AcademicCredential.sol",
+  "compiler": {
+    "version": "0.8.20+commit.a1b79de6",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "shanghai"
+  },
+  "networks": {
+    "ganache": {
+      "networkName": "Ganache / Localhost",
+      "chainId": 1337,
+      "rpcUrl": "http://127.0.0.1:7545",
+      "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "deployerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "transactionHash": "0x3a4f6d89b1c70e9a5281efd36a99478f6581971f11a84091a13e2dfb147d3e21",
+      "blockNumber": 1,
+      "gasUsed": "1428590"
+    },
+    "sepolia": {
+      "networkName": "Ethereum Sepolia Testnet",
+      "chainId": 11155111,
+      "contractAddress": "0x8B32Fc4112e3eA1e5318AAb83D6bDeB07D3c9213",
+      "deployerAddress": "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",
+      "transactionHash": "0x82f45ea3d6837890f65349e52c803324d081f93ea937eec528571439eaef8b93",
+      "blockNumber": 6891042,
+      "gasUsed": "1428590"
+    }
+  },
+  "roles": {
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "authorizedIssuer": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "unauthorizedTester": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+  }
+}

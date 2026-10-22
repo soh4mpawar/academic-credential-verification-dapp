@@ -1,0 +1,26 @@
+{
+  "name": "academic-credential-verification-dapp",
+  "version": "1.0.0",
+  "description": "Decentralized Academic Credential Verification System (EduVerify) - Blockchain Technology (CSE4444) Assignment 2",
+  "main": "frontend/js/app.js",
+  "scripts": {
+    "start": "lite-server",
+    "test": "node test/test_cases.js"
+  },
+  "keywords": [
+    "ethereum",
+    "solidity",
+    "dapp",
+    "metamask",
+    "blockchain",
+    "academic-credentials"
+  ],
+  "author": "Soham Sandeep Pawar",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^5.7.2"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
