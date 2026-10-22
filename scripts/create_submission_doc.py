@@ -172,10 +172,10 @@ p_test_desc.paragraph_format.keep_with_next = True
 # 12 Test Cases matching real EVM test output
 test_rows_data = [
     ("TC-01", "Valid", "Constructor sets deployer as owner and initial admin", "Owner address recorded, IssuerAdded event emitted", "PASS"),
-    ("TC-02", "Valid", "Owner authorizes CSE Department (0xFFcf...)", "Tx: 0x27f619e7... | Gas: 139,874 gas", "PASS"),
-    ("TC-03", "Valid", "Authorized issuer mints cert (CERT-2026-CSE-001)", "Tx: 0xe97d1582... | Gas: 280,516 gas (Block #3)", "PASS"),
+    ("TC-02", "Valid", "Owner authorizes CSE Department (0x6174...)", "Tx: 0x5ced633e... | Gas: 139,874 gas", "PASS"),
+    ("TC-03", "Valid", "Authorized issuer mints cert (CERT-2026-CSE-001)", "Tx: 0xdc044036... | Gas: 280,516 gas (Block #3)", "PASS"),
     ("TC-04", "Valid", "Public query of valid Certificate ID from EVM storage", "Returns verified record: Soham Sandeep Pawar (230905312)", "PASS"),
-    ("TC-05", "Valid", "Department revokes certificate with valid reason", "Tx: 0xdea52b0b... | isRevoked set to true", "PASS"),
+    ("TC-05", "Valid", "Department revokes certificate with valid reason", "Tx: 0x2218a3da... | isRevoked set to true", "PASS"),
     ("TC-06", "Invalid", "Issue certificate with empty student name string (\"\")", "EVM Revert: 'Student name cannot be empty'", "PASS"),
     ("TC-07", "Invalid", "Issue certificate with duplicate Certificate ID", "EVM Revert: 'Certificate with this ID already exists'", "PASS"),
     ("TC-08", "Invalid", "Query non-existent Certificate ID", "Returns exists: false gracefully without EVM failure", "PASS"),
@@ -307,7 +307,7 @@ add_figure(
 
 # Page 5: Figures 5 & 6 (Figure 5 caption is guaranteed to stay with Figure 5 image!)
 add_figure(
-    "Figure 5: Transaction Revert Handling (Solidity require Validation & Unauthorized Call)",
+    "Figure 5: Failed Transaction Handling (Solidity require Revert & EVM Exception Display)",
     "screenshots/05_failed_transaction.png",
     is_page_start=True
 )

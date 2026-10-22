@@ -590,10 +590,11 @@ runInvalidTestBtn.addEventListener("click", async () => {
     appendLog(`[-] Unexpected: Transaction did not revert.`);
   } catch (err) {
     const msg = parseRevertReason(err);
-    appendLog(`[+] Expected Revert Caught: "${msg}"`);
+    appendLog(`[!] TRANSACTION FAILED: EVM Exception Caught`);
+    appendLog(`[-] Execution Reverted: "${msg}"`);
     appendLog(`[+] Solidity validation successfully guarded against invalid empty input.`);
-    appendLog(`[SUCCESS] Scenario 2 completed successfully.`);
-    showToast("Scenario 2 Passed", `Caught expected revert: ${msg}`, "success");
+    appendLog(`[SUCCESS] Scenario 2 completed: require statement enforced.`);
+    showToast("Transaction Reverted (EVM Exception)", `Revert Reason: ${msg}`, "error");
   }
 });
 
@@ -616,10 +617,11 @@ runUnauthorizedTestBtn.addEventListener("click", async () => {
     appendLog(`[-] Unexpected: Action succeeded without owner privilege.`);
   } catch (err) {
     const msg = parseRevertReason(err);
-    appendLog(`[+] Expected Revert Caught: "${msg}"`);
+    appendLog(`[!] TRANSACTION FAILED: EVM Exception Caught`);
+    appendLog(`[-] Execution Reverted: "${msg}"`);
     appendLog(`[+] Access control modifier successfully blocked unauthorized caller.`);
-    appendLog(`[SUCCESS] Scenario 3 completed successfully.`);
-    showToast("Scenario 3 Passed", `Caught expected revert: ${msg}`, "success");
+    appendLog(`[SUCCESS] Scenario 3 completed: onlyOwner modifier enforced.`);
+    showToast("Transaction Reverted (EVM Exception)", `Revert Reason: ${msg}`, "error");
   }
 });
 
@@ -657,11 +659,14 @@ function initToast() {
 function showToast(title, message, type = "info", txHash = null) {
   toastTitle.innerText = title;
   toastMessage.innerText = message;
+  toastBox.classList.remove("toast-error", "toast-success");
 
   if (type === "success") {
     toastIcon.innerText = "✅";
+    toastBox.classList.add("toast-success");
   } else if (type === "error") {
     toastIcon.innerText = "❌";
+    toastBox.classList.add("toast-error");
   } else if (type === "warning") {
     toastIcon.innerText = "⚠️";
   } else {
@@ -678,5 +683,5 @@ function showToast(title, message, type = "info", txHash = null) {
   toastBox.classList.remove("hidden");
   setTimeout(() => {
     toastBox.classList.add("hidden");
-  }, 7000);
+  }, 10000);
 }

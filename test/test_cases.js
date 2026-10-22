@@ -18,11 +18,10 @@ async function main() {
   console.log("Student: Soham Sandeep Pawar | Reg No: 230905312");
   console.log("========================================================================\n");
 
-  // 1. Initialize local Ganache EVM provider with deterministic accounts
+  // 1. Initialize local Ganache EVM provider (deterministic test accounts, zero hardcoded credentials)
   const ganacheProvider = ganache.provider({
     chain: { hardfork: "shanghai" },
     wallet: {
-      mnemonic: "myth like bonus scare over problem client lizard pioneer submit female collect",
       totalAccounts: 5,
       defaultBalance: 100
     },

@@ -5,28 +5,28 @@ Student: Soham Sandeep Pawar | Reg No: 230905312
 ========================================================================
 
 [EVM Setup] Connected to Ganache EVM.
-            Deployer / Owner Address: 0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1
-            Department Issuer:        0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0
-            Unauthorized Account:     0x22d491Bde2303f2f43325b2108D26f1eAbA1e32b
+            Deployer / Owner Address: 0xe1A38C77Ca4EE9bfFA182eA9892337236c59B424
+            Department Issuer:        0x90C1a8F7Ff3428f54E52F0F28191AF190c6fEEcb
+            Unauthorized Account:     0x3c6D6bce983B69CB5C98Cb6705D19eda1E3c9140
 
 --- 1. SMART CONTRACT DEPLOYMENT ---
 [DEPLOY SUCCESS] Contract deployed to Ganache EVM!
-                 Contract Address: 0xe78A0F7E598Cc8b0Bb87894B0F60dD2a88d6a8Ab
-                 Deployment Tx:    0x766bc87944bfb22f8c3e83d851eb85054bb4cfb7976474763888ec8bfbb3efb8
+                 Contract Address: 0x794CB4b36F7dcB8D7dB3bd96E642e192336Ef19a
+                 Deployment Tx:    0x7d7519a3b70972fc098d149aaa176ed8a22410b647477b46e03028ccbed0f6e5
                  Block Number:     1
                  Gas Used:         1620872 gas
 
 --- 2. VALID TRANSACTION TESTS ---
 [PASS] Test 1: Constructor sets deployer as owner and initializes admin authority
-       -> Owner: 0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1
+       -> Owner: 0xe1A38C77Ca4EE9bfFA182eA9892337236c59B424
 [PASS] Test 2: Owner authorizes CSE Department as accredited issuer
-       -> Tx Hash: 0x27f619e7cff945f61e16a265b37a75fd812562a1a02e710b56c89372cb9d188f | Gas Used: 139874
+       -> Tx Hash: 0x06fd01eb80da069246385737e1a29ee99ed222ec8e031f0461dad22ed6e888e5 | Gas Used: 139874
 [PASS] Test 3: Authorized issuer successfully issues student certificate
-       -> Cert ID: CERT-2026-CSE-001 | Tx Hash: 0xe97d158201809fb52396b76d77a99383c1a2331ca3118bbeb1e24d012238c4fb | Gas: 280516
+       -> Cert ID: CERT-2026-CSE-001 | Tx Hash: 0x50538f6eeec98f977b012432eda6978f2dc21bafe6e9d3114c0e54b45702d09d | Gas: 280516
 [PASS] Test 4: Querying certificate by ID returns authentic record from EVM storage
        -> Student: Soham Sandeep Pawar | RegNo: 230905312 | Issuer: Department of Computer Science & Engineering
 [PASS] Test 5: Issuing authority revokes certificate on-chain with valid reason
-       -> Status: isRevoked == true | Reason: "Administrative correction required due to updated semester credits" | Tx: 0xdea52b0b610c13b2c0d3331d3efad04f204866eed6c803e3946e8eddf529800b
+       -> Status: isRevoked == true | Reason: "Administrative correction required due to updated semester credits" | Tx: 0x4676de5a9492debaf84854ceda4c8738c4498289aa167af2af470f74774965ae
 
 --- 3. INVALID INPUT VALIDATION TESTS ---
 [PASS] Test 6: Empty student name reverts with validation error

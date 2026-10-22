@@ -619,7 +619,7 @@ body {
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
-  max-width: 420px;
+  max-width: 440px;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -630,6 +630,33 @@ body {
   align-items: flex-start;
   justify-content: space-between;
   gap: 0.75rem;
+}
+
+.toast-box.toast-error {
+  border: 2px solid #ef4444;
+  background-color: #fef2f2;
+}
+
+.toast-box.toast-error strong {
+  color: #b91c1c;
+}
+
+.toast-box.toast-error p {
+  color: #991b1b;
+  font-weight: 500;
+}
+
+.toast-box.toast-success {
+  border: 2px solid #22c55e;
+  background-color: #f0fdf4;
+}
+
+.toast-box.toast-success strong {
+  color: #15803d;
+}
+
+.toast-box.toast-success p {
+  color: #166534;
 }
 
 .toast-content {

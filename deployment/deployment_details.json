@@ -14,22 +14,22 @@
       "networkName": "Ganache Localhost",
       "chainId": 1337,
       "rpcUrl": "http://127.0.0.1:8545",
-      "contractAddress": "0xe78A0F7E598Cc8b0Bb87894B0F60dD2a88d6a8Ab",
-      "deployerAddress": "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1",
+      "contractAddress": "0xab6f08B57e835f3d2f2307BB1732Ceb50c20Ba4e",
+      "deployerAddress": "0xB8A547B41e9d1e09469fDb780C981D424a913022",
       "deploymentTransaction": {
-        "transactionHash": "0x766bc87944bfb22f8c3e83d851eb85054bb4cfb7976474763888ec8bfbb3efb8",
+        "transactionHash": "0xa2e4aba9f734c3ee00d36aaaea098ba916a12d4d8331747cfb63a61750472b77",
         "blockNumber": 1,
         "gasUsed": "1620872"
       },
       "transactions": {
         "authorizeIssuer": {
-          "transactionHash": "0x27f619e7cff945f61e16a265b37a75fd812562a1a02e710b56c89372cb9d188f",
+          "transactionHash": "0x5ced633e33139ffa47d098e71a2178a88406d87f5a94349a7698222bd9f5f088",
           "blockNumber": 2,
           "gasUsed": "139874",
-          "issuer": "0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0"
+          "issuer": "0x6174dFb5c004cbf9d3B8Cc11c0d28c096c0360CA"
         },
         "issueCertificate": {
-          "transactionHash": "0xe97d158201809fb52396b76d77a99383c1a2331ca3118bbeb1e24d012238c4fb",
+          "transactionHash": "0xdc044036172f596e350c8426fbead96ab4c2660e0f1db286dd55edddad09c60a",
           "blockNumber": 3,
           "gasUsed": "280516",
           "certId": "CERT-2026-CSE-001",
@@ -40,8 +40,8 @@
     }
   },
   "roles": {
-    "owner": "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1",
-    "departmentIssuer": "0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0",
-    "unauthorizedAccount": "0x22d491Bde2303f2f43325b2108D26f1eAbA1e32b"
+    "owner": "0xB8A547B41e9d1e09469fDb780C981D424a913022",
+    "departmentIssuer": "0x6174dFb5c004cbf9d3B8Cc11c0d28c096c0360CA",
+    "unauthorizedAccount": "0xa0090229003645EE69FE4F2C897C3A4747FBD635"
   }
 }

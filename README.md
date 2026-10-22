@@ -47,10 +47,10 @@ The DApp consists of three integrated layers:
 | **Optimization** | Enabled (200 runs) |
 | **Primary Test Network** | Ganache Local RPC (`http://127.0.0.1:8545` / `Chain ID 1337`) |
 | **Alternative Test Network** | Ethereum Sepolia Testnet (`Chain ID 11155111`) |
-| **Deployed Contract Address** | `0xe78A0F7E598Cc8b0Bb87894B0F60dD2a88d6a8Ab` |
-| **Deployer / Owner Address** | `0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1` |
-| **Authorized Issuer Address** | `0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0` |
-| **Deployment Transaction Hash** | `0x766bc87944bfb22f8c3e83d851eb85054bb4cfb7976474763888ec8bfbb3efb8` |
+| **Deployed Contract Address** | `0xab6f08B57e835f3d2f2307BB1732Ceb50c20Ba4e` |
+| **Deployer / Owner Address** | `0xB8A547B41e9d1e09469fDb780C981D424a913022` |
+| **Authorized Issuer Address** | `0x6174dFb5c004cbf9d3B8Cc11c0d28c096c0360CA` |
+| **Deployment Transaction Hash** | `0xa2e4aba9f734c3ee00d36aaaea098ba916a12d4d8331747cfb63a61750472b77` |
 
 ---
 
